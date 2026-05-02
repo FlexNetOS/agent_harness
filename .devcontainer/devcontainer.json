@@ -24,7 +24,11 @@
     "--env-file=${localWorkspaceFolder}/.env"
   ],
   "containerEnv": {
-    "ECC_HOOK_PROFILE": "standard"
+    "ECC_HOOK_PROFILE": "standard",
+    "DEFAULT_BASE_BRANCH": "main",
+    "SESSION_SCRIPT": "./session-start.sh",
+    "CONFIG_FILE": "./mcp-config.json",
+    "ENABLE_VERBOSE_LOGGING": "false"
   },
   "postCreateCommand": "bash .devcontainer/postCreate.sh",
   "customizations": {
