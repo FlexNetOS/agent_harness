@@ -1,0 +1,44 @@
+{
+  "$schema": "https://raw.githubusercontent.com/devcontainers/spec/main/schemas/devContainer.schema.json",
+  "name": "everything-claude-code",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/devcontainers/features/python:1": {
+      "version": "3.11"
+    },
+    "ghcr.io/devcontainers/features/common-utils:2": {}
+  },
+  "remoteUser": "node",
+  "workspaceFolder": "/workspaces/agent_harness",
+  "mounts": [
+    "source=ecc-node-modules,target=/workspaces/agent_harness/node_modules,type=volume",
+    "source=ecc-yarn-cache,target=/home/node/.yarn/berry/cache,type=volume",
+    "source=ecc-npm-cache,target=/home/node/.npm,type=volume",
+    "source=ecc-claude-state,target=/home/node/.claude,type=volume"
+  ],
+  "runArgs": [
+    "--env-file=${localWorkspaceFolder}/.env"
+  ],
+  "containerEnv": {
+    "ECC_HOOK_PROFILE": "standard"
+  },
+  "postCreateCommand": "bash .devcontainer/postCreate.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "ms-python.python",
+        "DavidAnson.vscode-markdownlint"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "files.eol": "\n"
+      }
+    }
+  }
+}

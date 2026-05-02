@@ -1,0 +1,47 @@
+# Build context exclusions for Dockerfile build.
+# Keeps the build context small and prevents secrets/large dirs from entering image layers.
+
+# Node deps (mounted as named volume in the devcontainer)
+node_modules/
+.yarn/cache
+.yarn/install-state.gz
+.yarn/build-state.yml
+.pnp.*
+
+# VCS
+.git/
+.gitignore
+.gitattributes
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# CI artifacts
+coverage/
+*.log
+.cache/
+
+# Personal / local-only
+research/
+ecc2/
+.claude/
+TASKS.md
+dashboard.html
+MEMORY.md
+memory/
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Build outputs
+dist/
+out/
+build/
+
+# Tests are needed inside the container (devcontainer runs them via postCreate)
+# so don't ignore tests/ here.

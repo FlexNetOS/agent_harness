@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(MSYS_NO_PATHCONV=1 docker run --rm -v \"/c/Users/DavidRevenaugh/AI-Workspace/_projects/harness/agent_harness:/workspaces/agent_harness\" -w \"/workspaces/agent_harness\" ecc-harness:dev bash -lc \"npm test 2>&1 | tail -10\")"
+    ]
+  }
+}
