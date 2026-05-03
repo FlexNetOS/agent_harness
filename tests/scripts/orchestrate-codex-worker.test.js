@@ -7,11 +7,50 @@ const path = require('path');
 const { spawnSync } = require('child_process');
 
 const SCRIPT = path.join(__dirname, '..', '..', 'scripts', 'orchestrate-codex-worker.sh');
+const RM_RETRY_OPTIONS = { recursive: true, force: true, maxRetries: 30, retryDelay: 100 };
+const CLEANUP_RETRY_ATTEMPTS = 30;
+const CLEANUP_RETRY_DELAY_MS = 100;
+
+function resolveBash() {
+  if (process.env.ECC_TEST_BASH) return process.env.ECC_TEST_BASH;
+
+  if (process.platform === 'win32') {
+    const candidates = [
+      'C:\\Program Files\\Git\\bin\\bash.exe',
+      'C:\\Program Files\\Git\\usr\\bin\\bash.exe'
+    ];
+    const gitBash = candidates.find(candidate => fs.existsSync(candidate));
+    if (gitBash) return gitBash;
+  }
+
+  return 'bash';
+}
+
+function sleepSync(ms) {
+  Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms);
+}
+
+function removeTempRoot(tempRoot) {
+  let lastError;
+
+  for (let attempt = 0; attempt < CLEANUP_RETRY_ATTEMPTS; attempt++) {
+    try {
+      fs.rmSync(tempRoot, RM_RETRY_OPTIONS);
+      return;
+    } catch (error) {
+      lastError = error;
+      sleepSync(CLEANUP_RETRY_DELAY_MS);
+    }
+  }
+
+  throw lastError;
+}
 
 console.log('=== Testing orchestrate-codex-worker.sh ===\n');
 
 let passed = 0;
 let failed = 0;
+const BASH = resolveBash();
 
 function test(desc, fn) {
   try {
@@ -33,7 +72,7 @@ test('fails fast for an unreadable task file and records failure artifacts', () 
   try {
     spawnSync('git', ['init'], { cwd: tempRoot, stdio: 'ignore' });
 
-    const result = spawnSync('bash', [SCRIPT, missingTaskFile, handoffFile, statusFile], {
+    const result = spawnSync(BASH, [SCRIPT, missingTaskFile, handoffFile, statusFile], {
       cwd: tempRoot,
       encoding: 'utf8'
     });
@@ -55,7 +94,7 @@ test('fails fast for an unreadable task file and records failure artifacts', () 
       'Handoff file should explain the task-file failure'
     );
   } finally {
-    fs.rmSync(tempRoot, { recursive: true, force: true });
+    removeTempRoot(tempRoot);
   }
 });
 
