@@ -50,6 +50,23 @@ RUN mkdir -p /home/node/.yarn/berry/cache \
              /workspaces/agent_harness/node_modules \
     && chown -R node:node /home/node /workspaces/agent_harness
 
+# Persistent shell environment for the node user.
+# - GITHUB_TOKEN / GH_TOKEN unset on every interactive shell so gh reads
+#   the stored auth from the bind-mounted ~/.config/gh instead of an
+#   invalid token leaked from the host environment.
+# - XDG_CONFIG_HOME anchored to ~/.config so every XDG-aware tool finds
+#   the same canonical location regardless of host OS conventions.
+RUN printf 'unset GITHUB_TOKEN\nunset GH_TOKEN\nexport XDG_CONFIG_HOME="$HOME/.config"\n' \
+        > /etc/profile.d/ecc-env.sh \
+    && chmod 0644 /etc/profile.d/ecc-env.sh
+
+# Disable commit/tag signing at the system level. The container has no access
+# to host SSH/GPG keys by default; signing would fail with "key not found"
+# (especially when host user.signingkey points at a Windows-only path).
+# Per-repo override is still possible if a Linux-side key is later mounted.
+RUN git config --system commit.gpgsign false \
+    && git config --system tag.gpgsign false
+
 # Switch to non-root user (provided by base image)
 USER node
 

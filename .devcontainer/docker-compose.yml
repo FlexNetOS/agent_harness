@@ -1,0 +1,68 @@
+# Portable multi-container devcontainer for agent_harness.
+#
+# This compose file is OPT-IN. The single-container .devcontainer/devcontainer.json
+# remains the default for "developing agent_harness itself." Use this compose
+# flow when you want to use agent_harness as a tooling layer for ANOTHER project,
+# with prompt-nexus auto-attached as a sidecar workspace.
+#
+# Usage:
+#   cp .devcontainer/.env.example .devcontainer/.env
+#   $EDITOR .devcontainer/.env   # set host paths
+#   docker compose -f .devcontainer/docker-compose.yml --env-file .devcontainer/.env up -d
+#   docker compose -f .devcontainer/docker-compose.yml exec harness bash
+#
+# See docs/architecture/adr/0005-portable-multicontainer.md for rationale.
+
+services:
+  harness:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+    image: ecc-harness:dev
+    container_name: ecc-harness
+    user: node
+    working_dir: /workspaces/${HARNESS_TARGET_NAME}
+    volumes:
+      - ${AGENT_HARNESS_HOST}:/workspaces/agent_harness:cached
+      - ${HARNESS_TARGET_HOST}:/workspaces/${HARNESS_TARGET_NAME}:cached
+      - ${PROMPT_NEXUS_HOST}:/workspaces/prompt-nexus:cached
+      - ${HOST_CONFIG_DIR}:/home/node/.config
+      - ecc-node-modules:/workspaces/agent_harness/node_modules
+      - ecc-yarn-cache:/home/node/.yarn/berry/cache
+      - ecc-npm-cache:/home/node/.npm
+      - ecc-claude-state:/home/node/.claude
+    env_file:
+      - .env
+    environment:
+      ECC_HOOK_PROFILE: standard
+      ECC_DEVCONTAINER_VALIDATION: "true"
+      DEFAULT_BASE_BRANCH: main
+      SESSION_SCRIPT: ./session-start.sh
+      CONFIG_FILE: ./mcp-config.json
+      ENABLE_VERBOSE_LOGGING: "false"
+    command: sleep infinity
+    networks:
+      - ah-net
+    depends_on:
+      - prompt-nexus
+
+  prompt-nexus:
+    image: node:20-bookworm
+    container_name: ecc-prompt-nexus
+    user: node
+    working_dir: /app
+    volumes:
+      - ${PROMPT_NEXUS_HOST}:/app:cached
+    command: sleep infinity
+    networks:
+      - ah-net
+
+volumes:
+  ecc-node-modules:
+  ecc-yarn-cache:
+  ecc-npm-cache:
+  ecc-claude-state:
+
+networks:
+  ah-net:
+    driver: bridge
