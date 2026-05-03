@@ -18,7 +18,8 @@
     "source=ecc-node-modules,target=/workspaces/agent_harness/node_modules,type=volume",
     "source=ecc-yarn-cache,target=/home/node/.yarn/berry/cache,type=volume",
     "source=ecc-npm-cache,target=/home/node/.npm,type=volume",
-    "source=ecc-claude-state,target=/home/node/.claude,type=volume"
+    "source=ecc-claude-state,target=/home/node/.claude,type=volume",
+    "source=claude-shared-state,target=/mnt/claude-shared,type=volume"
   ],
   "runArgs": [
     "--env-file=${localWorkspaceFolder}/.env"
@@ -28,8 +29,10 @@
     "DEFAULT_BASE_BRANCH": "main",
     "SESSION_SCRIPT": "./session-start.sh",
     "CONFIG_FILE": "./mcp-config.json",
-    "ENABLE_VERBOSE_LOGGING": "false"
+    "ENABLE_VERBOSE_LOGGING": "false",
+    "CLAUDE_SHARED_VOLUME_DIR": "/mnt/claude-shared"
   },
+  "initializeCommand": "node scripts/setup.js --init-env-only && (docker volume create claude-shared-state || true)",
   "postCreateCommand": "bash .devcontainer/postCreate.sh",
   "customizations": {
     "vscode": {
