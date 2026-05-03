@@ -56,4 +56,29 @@ npm run verify -- --skip-mcp || {
   echo "[postCreate] Continuing — devcontainer is still usable."
 }
 
-echo "[postCreate] Done. Try: 'npm run verify' or 'claude mcp list'"
+# Probe gh auth: in the compose-mode container, ~/.config is bind-mounted from
+# the host so a one-time `gh auth login` on the host should make the CLI work
+# in here too. We don't fail postCreate on a bad probe — just surface a banner
+# so the user knows what to fix.
+if command -v gh >/dev/null 2>&1; then
+  echo "[postCreate] Checking gh auth via mounted ~/.config/gh..."
+  if gh auth status >/dev/null 2>&1; then
+    echo "[postCreate] gh auth OK."
+  else
+    cat <<'BANNER'
+[postCreate] WARN: gh auth not detected. To fix from your HOST shell:
+  gh auth login
+This writes ~/.config/gh/hosts.yml on the host, which the container reads
+through the bind-mount. If you have GITHUB_TOKEN set in your shell env,
+note that the container clears it on every interactive shell so the stored
+auth wins. (See ADR 0005.)
+BANNER
+  fi
+fi
+
+cat <<'NEXT'
+[postCreate] Done. Suggested next steps:
+  - Inside this container:    npm run verify
+  - From the host (compose):  docker compose -f .devcontainer/docker-compose.yml exec harness bash
+  - For per-project setup:    docs/RUNBOOKS/portable-devcontainer.md
+NEXT

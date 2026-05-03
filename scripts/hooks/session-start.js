@@ -94,6 +94,73 @@ function isSessionStartContextDisabled() {
   return ['0', 'false', 'off', 'none', 'disabled'].includes(raw);
 }
 
+// Validate that the devcontainer environment is set up as the portable
+// docker-compose flow expects. Only runs when ECC_DEVCONTAINER_VALIDATION=true,
+// which the compose `environment:` block sets — the legacy single-container
+// devcontainer does not, so this never fires in harness-on-harness work.
+//
+// Always exits 0 (per hooks rules); failures emit a banner string returned
+// to the caller for inclusion in additionalContext.
+function validateDevcontainerEnvironment() {
+  const flag = String(process.env.ECC_DEVCONTAINER_VALIDATION || '').trim().toLowerCase();
+  if (flag !== 'true' && flag !== '1') return null;
+
+  const failures = [];
+
+  if (!fs.existsSync('/.dockerenv')) {
+    failures.push('not running inside a container (/.dockerenv missing)');
+  }
+
+  const targetName = process.env.HARNESS_TARGET_NAME;
+  if (!targetName) {
+    failures.push('HARNESS_TARGET_NAME env var not set (compose .env incomplete?)');
+  } else {
+    const targetPath = `/workspaces/${targetName}`;
+    try {
+      fs.accessSync(targetPath, fs.constants.W_OK);
+    } catch {
+      failures.push(`target workspace ${targetPath} missing or not writable`);
+    }
+  }
+
+  if (!fs.existsSync('/home/node/.config/gh/hosts.yml')) {
+    failures.push('gh auth not present at /home/node/.config/gh/hosts.yml — run `gh auth login` on the host');
+  }
+
+  try {
+    const out = require('child_process')
+      .execSync('git config --get commit.gpgsign', { encoding: 'utf8', stdio: ['pipe', 'pipe', 'ignore'] })
+      .trim();
+    if (out !== 'false') {
+      failures.push(`commit.gpgsign is "${out}" — expected "false" (Dockerfile system config drifted?)`);
+    }
+  } catch {
+    // git config not set at all — equivalent to default (true). Flag it.
+    failures.push('commit.gpgsign not set to false (Dockerfile system config drifted?)');
+  }
+
+  const xdg = process.env.XDG_CONFIG_HOME;
+  if (xdg !== '/home/node/.config') {
+    failures.push(`XDG_CONFIG_HOME is "${xdg || '<unset>'}" — expected "/home/node/.config" (profile drop did not run?)`);
+  }
+
+  if (failures.length === 0) {
+    log('[SessionStart] Devcontainer environment validated.');
+    return null;
+  }
+
+  log(`[SessionStart] Devcontainer validation reported ${failures.length} issue(s).`);
+  const banner = [
+    '## Devcontainer environment check — issues detected',
+    '',
+    'The portable agent_harness compose flow expects:',
+    ...failures.map(f => `- ${f}`),
+    '',
+    'See docs/RUNBOOKS/portable-devcontainer.md for the recovery steps.'
+  ].join('\n');
+  return banner;
+}
+
 function getSessionStartMaxContextChars() {
   const raw = process.env.ECC_SESSION_START_MAX_CHARS;
   if (!raw) return DEFAULT_SESSION_START_CONTEXT_MAX_CHARS;
@@ -528,6 +595,14 @@ async function main() {
   }
 
   if (shouldInjectContext) {
+    // Devcontainer environment banner — gated by ECC_DEVCONTAINER_VALIDATION.
+    // Banner is prepended so it surfaces above other context when something
+    // is misconfigured.
+    const devcontainerBanner = validateDevcontainerEnvironment();
+    if (devcontainerBanner) {
+      additionalContextParts.push(devcontainerBanner);
+    }
+
     const instinctSummary = summarizeActiveInstincts(observerContext);
     if (instinctSummary) {
       additionalContextParts.push(instinctSummary);
