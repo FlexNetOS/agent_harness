@@ -1,0 +1,27 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "memory-stack-all",
+      "runtimeExecutable": "docker",
+      "runtimeArgs": [
+        "compose",
+        "-f",
+        "C:/Users/DavidRevenaugh/AI-Workspace/_projects/prompt_hub/prompt-nexus/docker/docker-compose.memory.yml",
+        "up",
+        "-d",
+        "--build"
+      ],
+      "port": 8000,
+      "autoPort": false
+    },
+    {
+      "name": "ecc-dashboard",
+      "runtimeExecutable": "C:/Users/DavidRevenaugh/AppData/Local/Programs/Python/Python313/python.exe",
+      "runtimeArgs": [
+        "C:/Users/DavidRevenaugh/AI-Workspace/_projects/harness/agent_harness/ecc_dashboard.py"
+      ],
+      "port": 0
+    }
+  ]
+}
