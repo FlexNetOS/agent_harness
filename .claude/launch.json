@@ -1,0 +1,75 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "chroma",
+      "runtimeExecutable": "docker",
+      "runtimeArgs": [
+        "compose",
+        "-f",
+        "C:/Users/DavidRevenaugh/AI-Workspace/_projects/prompt_hub/prompt-nexus/docker/docker-compose.memory.yml",
+        "up",
+        "chroma"
+      ],
+      "port": 8000
+    },
+    {
+      "name": "postgres",
+      "runtimeExecutable": "docker",
+      "runtimeArgs": [
+        "compose",
+        "-f",
+        "C:/Users/DavidRevenaugh/AI-Workspace/_projects/prompt_hub/prompt-nexus/docker/docker-compose.memory.yml",
+        "up",
+        "postgres"
+      ],
+      "port": 5432
+    },
+    {
+      "name": "mempalace",
+      "runtimeExecutable": "docker",
+      "runtimeArgs": [
+        "compose",
+        "-f",
+        "C:/Users/DavidRevenaugh/AI-Workspace/_projects/prompt_hub/prompt-nexus/docker/docker-compose.memory.yml",
+        "up",
+        "--build",
+        "mempalace"
+      ],
+      "port": 8077
+    },
+    {
+      "name": "sqlite-web",
+      "runtimeExecutable": "docker",
+      "runtimeArgs": [
+        "compose",
+        "-f",
+        "C:/Users/DavidRevenaugh/AI-Workspace/_projects/prompt_hub/prompt-nexus/docker/docker-compose.memory.yml",
+        "up",
+        "sqlite-web"
+      ],
+      "port": 8079
+    },
+    {
+      "name": "memory-stack-all",
+      "runtimeExecutable": "docker",
+      "runtimeArgs": [
+        "compose",
+        "-f",
+        "C:/Users/DavidRevenaugh/AI-Workspace/_projects/prompt_hub/prompt-nexus/docker/docker-compose.memory.yml",
+        "up",
+        "-d",
+        "--build"
+      ],
+      "port": 8000
+    },
+    {
+      "name": "ecc-dashboard",
+      "runtimeExecutable": "C:/Users/DavidRevenaugh/AppData/Local/Programs/Python/Python313/python.exe",
+      "runtimeArgs": [
+        "C:/Users/DavidRevenaugh/AI-Workspace/_projects/harness/agent_harness/ecc_dashboard.py"
+      ],
+      "port": 0
+    }
+  ]
+}

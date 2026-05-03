@@ -199,6 +199,7 @@ commands:
   - refactor-clean
   - resume-session
   - review-pr
+  - runbook
   - rust-build
   - rust-review
   - rust-test
