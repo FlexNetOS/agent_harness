@@ -15,7 +15,7 @@ A new contributor or operator with a clean machine and a fresh clone of `agent_h
 
 Three concrete pains:
 
-- **No single canonical sequence.** The harness has 68 commands, 189 skills, and 48 agents. There is no `/scaffold-project` or `/new-project`. A first-timer must infer that `/prp-prd → /prp-plan → /prp-implement` is "the path," and that `/harness-audit` should run *before* any of that.
+- **No single canonical sequence.** The harness has 68 commands, 190 skills, and 48 agents. There is no `/scaffold-project` or `/new-project`. A first-timer must infer that `/prp-prd → /prp-plan → /prp-implement` is "the path," and that `/harness-audit` should run *before* any of that.
 - **Hidden gates surprise the workflow.** `pre:bash:dispatcher` runs on every Bash call, `pre:edit-write:gateguard-fact-force` blocks the first Edit/Write per file, and `pre:config-protection` blocks edits to lint configs. A runbook that does not name these gates looks like it is broken when it is not.
 - **The Windows host is unreliable.** The user's host is mid-repair; the devcontainer is the only environment we can assume is clean. Any workflow that depends on host-side tooling (a global `claude` install, a host yarn, a host shell config) will fail at least once.
 
@@ -51,7 +51,7 @@ Explicitly out of scope for this spec and the runbook it produces:
 ## 4. Personas
 
 **P1 — The first-time operator (primary persona).**
-A contributor who has cloned `agent_harness` for the first time. Knows Claude Code exists, has used it casually. Has not memorized 68 commands. Wants to build a Prompt Bot/Agent today and ship something by end-of-day. Will read the runbook top-to-bottom once, then come back to it as a checklist.
+A contributor who has cloned `agent_harness` for the first time. Knows Claude Code exists, has used it casually. Has not memorized 68 commands. Wants to build a Prompt Bot/Agent today and ship something by end-of-day. Will read the runbook top-to-bottom once, then come back to it as a checklist. (The `runbook` skill, registered in `agent.yaml`, is the entry point.)
 
 **P2 — The repair-mode maintainer (the user, today).**
 Knows the harness intimately. Host is partially broken; devcontainer is the trusted environment. Needs the runbook to *not* assume host hygiene. Will use the runbook as a forcing function for completeness — every gap is a paper cut on every future bootstrap.

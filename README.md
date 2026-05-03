@@ -350,7 +350,7 @@ If you stacked methods, clean up in this order:
 /plugin list everything-claude-code@everything-claude-code
 ```
 
-**That's it!** You now have access to 48 agents, 189 skills, and 69 legacy command shims.
+**That's it!** You now have access to 48 agents, 190 skills, and 68 legacy command shims.
 
 ### Dashboard GUI
 
@@ -1364,8 +1364,8 @@ The configuration is automatically detected from `.opencode/opencode.json`.
 | Feature | Claude Code | OpenCode | Status |
 |---------|-------------|----------|--------|
 | Agents | PASS: 48 agents | PASS: 12 agents | **Claude Code leads** |
-| Commands | PASS: 69 commands | PASS: 31 commands | **Claude Code leads** |
-| Skills | PASS: 189 skills | PASS: 37 skills | **Claude Code leads** |
+| Commands | PASS: 68 commands | PASS: 31 commands | **Claude Code leads** |
+| Skills | PASS: 190 skills | PASS: 37 skills | **Claude Code leads** |
 | Hooks | PASS: 8 event types | PASS: 11 events | **OpenCode has more!** |
 | Rules | PASS: 29 rules | PASS: 13 instructions | **Claude Code leads** |
 | MCP Servers | PASS: 14 servers | PASS: Full | **Full parity** |

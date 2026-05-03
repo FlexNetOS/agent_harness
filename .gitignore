@@ -78,6 +78,10 @@ marketing/
 .dmux-hooks/
 .claude/worktrees/
 .claude/scheduled_tasks.lock
+# Per-developer dev-server config — copy from .claude/launch.example.json
+# and fill in machine-specific paths. Kept local; never committed because
+# it embeds absolute paths.
+.claude/launch.json
 
 # Temporary files
 tmp/
