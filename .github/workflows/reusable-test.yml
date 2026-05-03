@@ -35,18 +35,11 @@ jobs:
           node-version: ${{ inputs.node-version }}
 
       - name: Setup pnpm
-        if: inputs.package-manager == 'pnpm' && inputs.node-version != '18.x'
+        if: inputs.package-manager == 'pnpm'
         uses: pnpm/action-setup@26f6d4f2c533a43e6b5da0b4a5dd983f98f7b49a # v6.0.4
         with:
           # Keep an explicit pnpm major because this repo's packageManager is Yarn.
           version: 10
-
-      - name: Setup pnpm (via Corepack)
-        if: inputs.package-manager == 'pnpm' && inputs.node-version == '18.x'
-        shell: bash
-        run: |
-          corepack enable
-          corepack prepare pnpm@9 --activate
 
       - name: Setup Yarn (via Corepack)
         if: inputs.package-manager == 'yarn'
