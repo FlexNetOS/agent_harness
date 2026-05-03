@@ -174,7 +174,7 @@ tests/           — Test suite
 
 ### Project Conventions
 - File naming: lowercase-kebab-case
-- Language: CommonJS only, no ESM/TypeScript
+- Language: `scripts/` and `tests/` use CommonJS `.js`; `.opencode/` is ESM TypeScript; `skills/ck/` uses ESM `.mjs`. New top-level scripts default to CommonJS unless extending an ESM/TS surface.
 - Package manager: Yarn 4.9.2 enforced
 - Commits: Conventional format (feat:, fix:, etc.)
 - Unicode: ASCII only, emojis stripped

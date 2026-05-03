@@ -1,0 +1,34 @@
+# Normalize line endings on commit; check out platform-native by default.
+# Shell scripts and other LF-required files are pinned to LF regardless of host.
+
+* text=auto eol=lf
+
+# POSIX shell tooling — must be LF or kernel/bash will fail on the shebang/CRs.
+*.sh   text eol=lf
+*.bash text eol=lf
+
+# Node / config files commonly shared across platforms — keep LF.
+*.js   text eol=lf
+*.mjs  text eol=lf
+*.cjs  text eol=lf
+*.ts   text eol=lf
+*.json text eol=lf
+*.yml  text eol=lf
+*.yaml text eol=lf
+*.md   text eol=lf
+
+# Lockfiles: declare as text but never linguist-detected.
+package-lock.json   text eol=lf linguist-generated
+yarn.lock           text eol=lf linguist-generated
+pnpm-lock.yaml      text eol=lf linguist-generated
+
+# Binary asset families — never touched by EOL or text normalization.
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.ico  binary
+*.pdf  binary
+*.zip  binary
+*.gz   binary
+*.tar  binary
