@@ -256,7 +256,7 @@ For the runbook author, here is which command/skill owns which step:
 
 These are unresolved and need an answer before the runbook ships in `v1.0`. Tagged with the function that should resolve them.
 
-- **Q1 (engineering):** Should the runbook live at `docs/RUNBOOKS/clone-to-new-project.md` or under `commands/runbook.md` as a slash command? The user's request reads as "create a `/runbook`" — interpreted as both an artifact (markdown) and a callable command. Recommend doing both: a callable `/runbook` command that prints/follows the markdown.
+- **Q1 (engineering):** ~~Should the runbook live at `docs/RUNBOOKS/clone-to-new-project.md` or under `commands/runbook.md` as a slash command?~~ **RESOLVED 2026-05-03 (PR #11):** Per the AGENTS.md Workflow Surface Policy, `skills/` is the canonical workflow surface and `commands/` is a legacy compatibility shim. Resolution: the runbook lives at `docs/RUNBOOKS/clone-to-new-project.md` and is invoked via the `runbook` skill at `skills/runbook/SKILL.md` (registered in `agent.yaml` skills list). No `commands/runbook.md` shim — would only be added later if cross-harness parity required it.
 - **Q2 (engineering):** What is the canonical home for new projects bootstrapped *alongside* the harness? Options: `projects/<name>/`, sibling directory, separate repo. The runbook currently assumes `projects/prompt-bot/`. Confirm.
 - **Q3 (product):** Should `/prp-prd`'s default PRD location be configurable, so the runbook can promise a stable path? Today the path is whatever the agent picks.
 - **Q4 (engineering):** Is `ECC_HOOK_PROFILE` settable per-session (e.g., for the bootstrap turn only) or is it container-wide? The runbook would benefit from a session-scoped override for the rare phase-5 edge case in F4/F5.
@@ -283,4 +283,4 @@ Before this spec is "done":
 
 The runbook author (next turn) will use §5 (User journey) and §7 (Failure modes & recovery) verbatim as the runbook's spine. §8 (Roles) becomes the "Reference" appendix at the bottom of the runbook. §6 (Success metrics) becomes the "Verification" checklist that runs at the end of every bootstrap.
 
-The runbook will be saved to `docs/RUNBOOKS/clone-to-new-project.md` *and* registered as a callable slash command at `commands/runbook.md` (per Q1's recommended resolution).
+The runbook will be saved to `docs/RUNBOOKS/clone-to-new-project.md` *and* registered as a callable skill at `skills/runbook/SKILL.md` (per Q1's resolved answer in this spec — Workflow Surface Policy directs new workflows to `skills/`, not `commands/`).

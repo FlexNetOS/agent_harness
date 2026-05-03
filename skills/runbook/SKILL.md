@@ -1,5 +1,6 @@
 ---
 name: runbook
+origin: ECC
 description: |
   Open and walk the canonical clone-to-new-project runbook phase-by-phase.
   Use at the start of any fresh agent_harness bootstrap, or when a teammate

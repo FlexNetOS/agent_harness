@@ -284,7 +284,7 @@ Restart the Claude session, re-audit.
 | 2 | Skill catalog (optional) | `/skill-health` | [commands/skill-health.md](../../commands/skill-health.md) |
 | 3 | PRD authoring | `/prp-prd` | [commands/prp-prd.md](../../commands/prp-prd.md) |
 | 4 | Implementation plan | `/prp-plan` | [commands/prp-plan.md](../../commands/prp-plan.md) |
-| 4 | Multi-PR plan (escape hatch) | `/blueprint` | [skills/blueprint/SKILL.md](../../skills/blueprint/SKILL.md) |
+| 4 | Multi-PR plan (escape hatch) | `blueprint` skill | [skills/blueprint/SKILL.md](../../skills/blueprint/SKILL.md) |
 | 5 | Phase execution | `/prp-implement` | [commands/prp-implement.md](../../commands/prp-implement.md) |
 | 5 | Quality gate | `/quality-gate` | [commands/quality-gate.md](../../commands/quality-gate.md) |
 | 5 | Commit | `/prp-commit` | [commands/prp-commit.md](../../commands/prp-commit.md) |

@@ -1469,8 +1469,8 @@ ECC is the **first plugin to maximize every major AI coding tool**. Here's how e
 | Feature | Claude Code | Cursor IDE | Codex CLI | OpenCode |
 |---------|------------|------------|-----------|----------|
 | **Agents** | 48 | Shared (AGENTS.md) | Shared (AGENTS.md) | 12 |
-| **Commands** | 69 | Shared | Instruction-based | 31 |
-| **Skills** | 189 | Shared | 10 (native format) | 37 |
+| **Commands** | 68 | Shared | Instruction-based | 31 |
+| **Skills** | 190 | Shared | 10 (native format) | 37 |
 | **Hook Events** | 8 types | 15 types | None yet | 11 types |
 | **Hook Scripts** | 20+ scripts | 16 scripts (DRY adapter) | N/A | Plugin hooks |
 | **Rules** | 34 (common + lang) | 34 (YAML frontmatter) | Instruction-based | 13 instructions |
