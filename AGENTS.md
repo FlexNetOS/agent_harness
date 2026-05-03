@@ -164,3 +164,36 @@ tests/           — Test suite
 - Code is readable and maintainable
 - Performance is acceptable
 - User requirements are met
+
+## Essential Project Knowledge for AI Agents
+
+### Build and Test Commands
+- Primary test suite: `npm test` (validates all components)
+- Individual tests: `node tests/lib/utils.test.js`
+- Coverage: `npm run coverage` (80% minimum)
+
+### Project Conventions
+- File naming: lowercase-kebab-case
+- Language: CommonJS only, no ESM/TypeScript
+- Package manager: Yarn 4.9.2 enforced
+- Commits: Conventional format (feat:, fix:, etc.)
+- Unicode: ASCII only, emojis stripped
+
+### Common Pitfalls
+- Hook resolution failures if CLAUDE_PLUGIN_ROOT unset
+- Package manager conflicts (use yarn)
+- Unicode check failures (no emojis)
+- Hardcoded paths rejected in CI
+- First-edit gate requires reading imports
+
+### Key Files and Patterns
+- Agent format: [agents/code-reviewer.md](agents/code-reviewer.md)
+- Skill format: [skills/tdd-workflow/SKILL.md](skills/tdd-workflow/SKILL.md)
+- Utilities: [scripts/lib/utils.js](scripts/lib/utils.js)
+
+### Documentation Links
+- [CONTRIBUTING.md](CONTRIBUTING.md) - Contribution workflow
+- [TROUBLESHOOTING.md](TROUBLESHOOTING.md) - Common issues
+- [WORKING-CONTEXT.md](WORKING-CONTEXT.md) - Current sprint context
+
+This ensures AI agents have immediate access to critical project knowledge for productive development.
