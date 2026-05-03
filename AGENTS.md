@@ -1,8 +1,18 @@
 # Everything Claude Code (ECC) — Agent Instructions
 
-This is a **production-ready AI coding plugin** providing 48 specialized agents, 190 skills, 68 commands, and automated hook workflows for software development.
+This is a **production-ready AI coding plugin** providing 48 specialized agents, 190 skills, 69 commands, and automated hook workflows for software development.
 
 **Version:** 2.0.0-rc.1
+
+## Cloud Session Setup
+
+For a fresh clone, run `node scripts/setup.js`. It materializes `.env` from `.env.example`, installs deps, pre-warms MCP servers, populates the `claude-shared-state` docker volume (cross-container Claude state on the WSL2 .vhdx disk), and runs the harness verifier. See [docs/CONTAINER-PERSISTENCE.md](docs/CONTAINER-PERSISTENCE.md).
+
+## Mandatory Standards (enforced)
+
+Every turn is primed with [/karpathy-guidelines](commands/karpathy-guidelines.md) and the **Boil the Ocean** completeness standard via the `user-prompt-submit:btoo-directives` hook ([scripts/hooks/btoo-directives.js](scripts/hooks/btoo-directives.js)). Stop-gate auditing is performed by PromptNexus's Haiku-flagged auditor (mounted via the shared volume).
+
+The standards in one paragraph: do the whole thing, do it right, do it with tests, do it with documentation. Never offer to "table this for later" when the permanent solve is within reach. Never present a workaround when the real fix exists. The standard is not "good enough" - it is "holy shit, that is done." See [docs/STANDARDS-ENFORCEMENT.md](docs/STANDARDS-ENFORCEMENT.md).
 
 ## Core Principles
 
@@ -147,7 +157,7 @@ Troubleshoot failures: check test isolation → verify mocks → fix implementat
 ```
 agents/          — 48 specialized subagents
 skills/          — 190 workflow skills and domain knowledge
-commands/        — 68 slash commands
+commands/        — 69 slash commands
 hooks/           — Trigger-based automations
 rules/           — Always-follow guidelines (common + per-language)
 scripts/         — Cross-platform Node.js utilities

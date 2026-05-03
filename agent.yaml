@@ -172,6 +172,7 @@ commands:
   - instinct-import
   - instinct-status
   - jira
+  - karpathy-guidelines
   - kotlin-build
   - kotlin-review
   - kotlin-test

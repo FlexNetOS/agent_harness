@@ -6,6 +6,20 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a **Claude Code plugin** - a collection of production-ready agents, skills, hooks, commands, rules, and MCP configurations. The project provides battle-tested workflows for software development using Claude Code.
 
+## Cloud Session Setup
+
+For a fresh clone (Cowork, devcontainer, codespace):
+
+```bash
+node scripts/setup.js
+```
+
+This is idempotent. It copies `.env.example` -> `.env` if missing, runs `yarn install`, pre-warms MCP servers, populates the cross-container shared volume from PromptNexus (if reachable), and runs `npm run verify --skip-mcp`. Required env vars for any session: `ANTHROPIC_API_KEY`, `GITHUB_TOKEN`. See [docs/CONTAINER-PERSISTENCE.md](docs/CONTAINER-PERSISTENCE.md) for the shared-volume design.
+
+## Mandatory Standards
+
+Every UserPromptSubmit injects [/karpathy-guidelines](commands/karpathy-guidelines.md) and the Boil-the-Ocean completeness standard via [scripts/hooks/btoo-directives.js](scripts/hooks/btoo-directives.js). Stop-gate auditing is owned by PromptNexus and read from the `claude-shared-state` docker volume. See [docs/STANDARDS-ENFORCEMENT.md](docs/STANDARDS-ENFORCEMENT.md) for the full design and the `ECC_HOOK_PROFILE` / `ECC_DISABLED_HOOKS` escape hatches.
+
 ## Running Tests
 
 ```bash
