@@ -116,6 +116,7 @@ skills:
   - repo-scan
   - returns-reverse-logistics
   - rules-distill
+  - runbook
   - rust-patterns
   - rust-testing
   - safety-guard
@@ -199,7 +200,6 @@ commands:
   - refactor-clean
   - resume-session
   - review-pr
-  - runbook
   - rust-build
   - rust-review
   - rust-test

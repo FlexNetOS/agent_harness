@@ -64,21 +64,30 @@ Open Claude Code in the integrated terminal (or start a session in the IDE).
 /harness-audit
 ```
 
-**What "green" means:**
-- All 6 MCP servers report healthy (`github`, `context7`, `exa`, `memory`, `playwright`, `sequential-thinking`).
+**What `/harness-audit` actually returns:** a deterministic 7-category scorecard from `node scripts/harness-audit.js` — *Tool Coverage*, *Context Efficiency*, *Quality Gates*, *Memory Persistence*, *Eval Coverage*, *Security Guardrails*, *Cost Efficiency*. Each category is `0–10`; `overall_score` is out of `70` for `repo` scope. Scores are reproducible per commit; no runtime probing happens here.
+
+**Green = no failed checks** in the script's output. If the audit reports failed checks, address them (the script lists exact file paths) before proceeding.
+
+### Step 3 — Verify MCP runtime health (separate from the audit)
+
+The audit is a static scorecard. MCP server availability is a runtime concern; verify it explicitly:
+
+```text
+/mcp list
+```
+
+All 6 servers should respond (`github`, `context7`, `exa`, `memory`, `playwright`, `sequential-thinking`). If a server is missing, see **F1** (MCP pre-warm). Also confirm:
+
 - `ECC_HOOK_PROFILE` resolves to `standard`.
-- `CLAUDE_PLUGIN_ROOT` points at the workspace plugin root, not a stale `~/.claude/plugins/` install.
-- No hooks listed as "no-op (root not found)."
+- `CLAUDE_PLUGIN_ROOT` points at the workspace plugin root, not a stale `~/.claude/plugins/` install (else **F3**).
 
-If any of those are red → **F3** (stale `CLAUDE_PLUGIN_ROOT`) or **F1** (an MCP server didn't pre-warm). Do not proceed past this gate until the audit is green.
-
-### Step 3 — (Optional) Skill health snapshot
+### Step 3b — (Optional) Skill health snapshot
 
 ```text
 /skill-health
 ```
 
-Confirms the 189 skills are discoverable. If a skill you expect to use is missing, see **F6** (`agent.yaml` drift).
+Confirms the 190 skills are discoverable. If a skill you expect to use is missing, see **F6** (`agent.yaml` drift).
 
 ---
 
@@ -135,7 +144,7 @@ Open the emitted file (typically `projects/prompt-bot/project-impl-plan.md`). Ve
 - No phase is more than ~1 PR worth of work. If one is, split it manually before continuing — this avoids `/prp-implement` doing too much in one turn.
 - At least one phase is tagged `phase: 1` (the entry point).
 
-> **Escape hatch:** If the work clearly spans many sessions and many PRs (this is rare for a Prompt Bot but happens for larger agent projects), use `/blueprint "<objective>"` instead of `/prp-plan`. Blueprint writes a multi-PR plan to `plans/`. Out of scope for the happy path; documented in the spec under §8.
+> **Escape hatch:** If the work clearly spans many sessions and many PRs (this is rare for a Prompt Bot but happens for larger agent projects), invoke the **`blueprint` skill** (`skills/blueprint/SKILL.md`) instead of `/prp-plan`. The skill writes a multi-PR plan to `plans/`. There is no `/blueprint` slash command — invoke the skill via `Skill { skill: "blueprint" }` or by referencing it in your prompt. Out of scope for the happy path; documented in the spec under §8.
 
 ---
 
@@ -198,8 +207,9 @@ This is the loop-closer — it makes the *next* clone-to-new-project bootstrap f
 Run through this before declaring the bootstrap done:
 
 - [ ] **G1:** Wall-clock from `git clone` exit to `/harness-audit` green was ≤ 90 seconds (warm host).
-- [ ] **G3:** `/harness-audit` is green; all 6 MCP servers responsive.
-- [ ] **G4:** Used the PRP chain in order — no skipped steps, no parallel branches except the documented `/blueprint` escape hatch.
+- [ ] **G2:** Every step was reproducible from this runbook alone, with zero recall to memory or README. (If you had to consult anything else, file the gap as a runbook update.)
+- [ ] **G3:** `/harness-audit` scorecard reports no failed checks; `/mcp list` shows all 6 servers responsive.
+- [ ] **G4:** Used the PRP chain in order — no skipped steps, no parallel branches except the documented `blueprint` skill escape hatch.
 - [ ] **G5:** No failure mode required undocumented recovery. (If you had to invent a fix, file an update against this runbook.)
 - [ ] PR is open against `main`, CI green, links the PRD and plan.
 - [ ] You did not need to consult any file outside this runbook to complete the bootstrap.
@@ -274,7 +284,7 @@ Restart the Claude session, re-audit.
 | 2 | Skill catalog (optional) | `/skill-health` | [commands/skill-health.md](../../commands/skill-health.md) |
 | 3 | PRD authoring | `/prp-prd` | [commands/prp-prd.md](../../commands/prp-prd.md) |
 | 4 | Implementation plan | `/prp-plan` | [commands/prp-plan.md](../../commands/prp-plan.md) |
-| 4 | Multi-PR plan (escape hatch) | `/blueprint` | [skills/blueprint/SKILL.md](../../skills/blueprint/SKILL.md) |
+| 4 | Multi-PR plan (escape hatch) | `blueprint` skill | [skills/blueprint/SKILL.md](../../skills/blueprint/SKILL.md) |
 | 5 | Phase execution | `/prp-implement` | [commands/prp-implement.md](../../commands/prp-implement.md) |
 | 5 | Quality gate | `/quality-gate` | [commands/quality-gate.md](../../commands/quality-gate.md) |
 | 5 | Commit | `/prp-commit` | [commands/prp-commit.md](../../commands/prp-commit.md) |

@@ -224,7 +224,7 @@ Copy-Item -Recurse rules/typescript "$HOME/.claude/rules/"
 /plugin list everything-claude-code@everything-claude-code
 ```
 
-**搞定！** 你现在可以使用 48 个智能体、189 项技能和 69 个命令了。
+**搞定！** 你现在可以使用 48 个智能体、190 项技能和 68 个命令了。
 
 ***
 

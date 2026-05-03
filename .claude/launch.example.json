@@ -1,0 +1,31 @@
+{
+  "_comment": "Template for .claude/launch.json. Copy to .claude/launch.json and fill in absolute paths for your environment. The actual launch.json is gitignored — it embeds machine-specific paths (Python interpreter, sibling repo locations) and must not be committed.",
+  "_setup": "1) cp .claude/launch.example.json .claude/launch.json  2) replace <PYTHON_PATH>, <ECC_REPO_ROOT>, <PROMPT_NEXUS_ROOT>  3) preview_start <name>",
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "memory-stack-all",
+      "_description": "PromptNexus memory backend (chroma/postgres/mempalace/sqlite-web) via docker compose. Requires <PROMPT_NEXUS_ROOT>/docker/docker-compose.memory.yml from the prompt-nexus sibling repo.",
+      "runtimeExecutable": "docker",
+      "runtimeArgs": [
+        "compose",
+        "-f",
+        "<PROMPT_NEXUS_ROOT>/docker/docker-compose.memory.yml",
+        "up",
+        "-d",
+        "--build"
+      ],
+      "port": 8000,
+      "autoPort": false
+    },
+    {
+      "name": "ecc-dashboard",
+      "_description": "ECC dashboard (Python). On Windows the system 'python3' resolves to a Microsoft Store shim; use the absolute path to a real interpreter. macOS/Linux can usually leave runtimeExecutable as 'python3'.",
+      "runtimeExecutable": "<PYTHON_PATH>",
+      "runtimeArgs": [
+        "<ECC_REPO_ROOT>/ecc_dashboard.py"
+      ],
+      "port": 0
+    }
+  ]
+}
