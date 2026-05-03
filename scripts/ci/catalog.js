@@ -63,7 +63,7 @@ function readFileOrThrow(filePath) {
   try {
     return fs.readFileSync(filePath, 'utf8');
   } catch (error) {
-    throw new Error(`Failed to read ${path.basename(filePath)}: ${error.message}`);
+    throw new Error(`Failed to read ${path.basename(filePath)}: ${error.message}`, { cause: error });
   }
 }
 
@@ -71,7 +71,7 @@ function writeFileOrThrow(filePath, content) {
   try {
     fs.writeFileSync(filePath, content, 'utf8');
   } catch (error) {
-    throw new Error(`Failed to write ${path.basename(filePath)}: ${error.message}`);
+    throw new Error(`Failed to write ${path.basename(filePath)}: ${error.message}`, { cause: error });
   }
 }
 
