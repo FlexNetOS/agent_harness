@@ -221,30 +221,30 @@ __metadata:
   linkType: hard
 
 "@opencode-ai/plugin@npm:^1.0.0":
-  version: 1.14.31
-  resolution: "@opencode-ai/plugin@npm:1.14.31"
+  version: 1.14.41
+  resolution: "@opencode-ai/plugin@npm:1.14.41"
   dependencies:
-    "@opencode-ai/sdk": "npm:1.14.31"
-    effect: "npm:4.0.0-beta.57"
+    "@opencode-ai/sdk": "npm:1.14.41"
+    effect: "npm:4.0.0-beta.59"
     zod: "npm:4.1.8"
   peerDependencies:
-    "@opentui/core": ">=0.2.0"
-    "@opentui/solid": ">=0.2.0"
+    "@opentui/core": ">=0.2.2"
+    "@opentui/solid": ">=0.2.2"
   peerDependenciesMeta:
     "@opentui/core":
       optional: true
     "@opentui/solid":
       optional: true
-  checksum: 10c0/cfd61526ddc95e0bf4c44b4018396268549c6812cd8f8c48f2854944223bc84a4cd63a2f187150aa6b911bd5d4faa25ecab44880c1d91d3fe624554c57ab79d4
+  checksum: 10c0/5283b50899727f7c1f549477620e4acb842a71230563a8620e90b1ae186ec6e0b2e39c650c82187a4774d79ecd120be27946474707780522505613dfbd191f58
   languageName: node
   linkType: hard
 
-"@opencode-ai/sdk@npm:1.14.31":
-  version: 1.14.31
-  resolution: "@opencode-ai/sdk@npm:1.14.31"
+"@opencode-ai/sdk@npm:1.14.41":
+  version: 1.14.41
+  resolution: "@opencode-ai/sdk@npm:1.14.41"
   dependencies:
     cross-spawn: "npm:7.0.6"
-  checksum: 10c0/b4575649795c8eb295afd1e083b0d64d846de2c8ff1110c45dd7225998ce6efe108cc6e48322dac262b1d002d7045d3ef74bb6a7bd0948441022caa886ec774b
+  checksum: 10c0/ee3a72ff47c6d672129a6bb2c3b0d747de156d85d9ed751fcef0ff91a4b6bb46140c63bd24a806e4c332d9c2e4450850a31925e657d8738fb9ec4d1d4dce6ab3
   languageName: node
   linkType: hard
 
@@ -643,9 +643,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"effect@npm:4.0.0-beta.57":
-  version: 4.0.0-beta.57
-  resolution: "effect@npm:4.0.0-beta.57"
+"effect@npm:4.0.0-beta.59":
+  version: 4.0.0-beta.59
+  resolution: "effect@npm:4.0.0-beta.59"
   dependencies:
     "@standard-schema/spec": "npm:^1.1.0"
     fast-check: "npm:^4.6.0"
@@ -657,7 +657,7 @@ __metadata:
     toml: "npm:^4.1.1"
     uuid: "npm:^13.0.0"
     yaml: "npm:^2.8.3"
-  checksum: 10c0/0ae765176b305f6ec9c067122cdd0adae8c83b233973df57200b3fb68e417f94cd7e539e71fff520f9c98be59404a23d68989cd43a4b53d9926e9ae91ee13a44
+  checksum: 10c0/3879f4d5f7280bcb0cb87467f30b8a70874dd1fd12c161bc9d690767badd21104d8b940d9997165e9eede4f4c75bb5a86c728d21e61d3a99f20d9722b71462a4
   languageName: node
   linkType: hard
 
